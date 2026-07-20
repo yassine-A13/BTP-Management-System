@@ -1,5 +1,7 @@
 package ma.btpmanagement.exceptions;
 
+import java.time.LocalDateTime;
+
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -67,7 +69,7 @@ public class GlobalExceptionHandler {
             HttpServletRequest request
     ) {
         var errorResponse = ErrorResponse.builder()
-                .timestamp(java.time.LocalDateTime.now())
+                .timestamp(LocalDateTime.now())
                 .status(status.value())
                 .error(status.getReasonPhrase())
                 .message(message)
