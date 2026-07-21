@@ -17,7 +17,10 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 @Mapper(componentModel = "spring")
 public abstract class PaiementFournisseurMapper {
 
-    @Mapping(target = "factureFournisseur", source = "factureFournisseurId")
+    @Mappings({
+            @Mapping(target = "factureFournisseur", source = "factureFournisseurId"),
+            @Mapping(target = "active", ignore = true)
+    })
     public abstract PaiementFournisseur toEntity(PaiementFournisseurRequestDTO dto);
 
     @Mappings({

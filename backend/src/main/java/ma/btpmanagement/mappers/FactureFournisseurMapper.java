@@ -19,7 +19,8 @@ public abstract class FactureFournisseurMapper {
 
     @Mappings({
             @Mapping(target = "fournisseur", source = "fournisseurId"),
-            @Mapping(target = "projet", source = "projetId")
+            @Mapping(target = "projet", source = "projetId"),
+            @Mapping(target = "active", ignore = true)
     })
     public abstract FactureFournisseur toEntity(FactureFournisseurRequestDTO dto);
 

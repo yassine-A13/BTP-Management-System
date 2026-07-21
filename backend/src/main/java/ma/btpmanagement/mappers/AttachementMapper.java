@@ -9,12 +9,17 @@ import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.Mappings;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
 @Mapper(componentModel = "spring")
 public interface AttachementMapper {
 
-    @Mapping(target = "projet", ignore = true)
+    @Mappings({
+            @Mapping(target = "projet", ignore = true),
+            @Mapping(target = "active", ignore = true),
+            @Mapping(target = "valide", ignore = true)
+    })
     Attachement toEntity(AttachementRequestDTO dto);
 
     @Mapping(target = "projetId", source = "projet.id")

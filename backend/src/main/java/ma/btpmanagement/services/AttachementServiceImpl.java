@@ -25,6 +25,12 @@ public class AttachementServiceImpl implements AttachementService {
     public AttachementResponseDTO create(AttachementRequestDTO dto) {
         var projet = findProjetById(dto.getProjetId());
         var attachement = attachementMapper.toEntity(dto);
+        if (attachement.getActive() == null) {
+            attachement.setActive(true);
+        }
+        if (attachement.getValide() == null) {
+            attachement.setValide(false);
+        }
         attachement.setProjet(projet);
 
         var savedAttachement = attachementRepository.save(attachement);

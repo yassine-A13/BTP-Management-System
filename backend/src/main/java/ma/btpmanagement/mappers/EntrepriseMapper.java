@@ -13,6 +13,7 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 @Mapper(componentModel = "spring")
 public interface EntrepriseMapper {
 
+    @Mapping(target = "active", ignore = true)
     Entreprise toEntity(EntrepriseRequestDTO dto);
 
     EntrepriseResponseDTO toResponseDTO(Entreprise entity);

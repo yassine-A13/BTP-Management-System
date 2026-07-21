@@ -31,6 +31,9 @@ public class FactureFournisseurServiceImpl implements FactureFournisseurService 
         var projet = findProjetById(dto.getProjetId());
 
         var facture = factureFournisseurMapper.toEntity(dto);
+        if (facture.getActive() == null) {
+            facture.setActive(true);
+        }
         facture.setFournisseur(fournisseur);
         facture.setProjet(projet);
         var savedFacture = factureFournisseurRepository.save(facture);

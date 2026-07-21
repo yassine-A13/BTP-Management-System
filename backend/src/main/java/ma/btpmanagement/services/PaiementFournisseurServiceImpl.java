@@ -10,6 +10,7 @@ import ma.btpmanagement.dtos.paiement.PaiementFournisseurResponseDTO;
 import ma.btpmanagement.entites.FactureFournisseur;
 import ma.btpmanagement.entites.PaiementFournisseur;
 import ma.btpmanagement.enums.StatutFacture;
+import ma.btpmanagement.exceptions.BusinessException;
 import ma.btpmanagement.exceptions.ResourceNotFoundException;
 import ma.btpmanagement.mappers.PaiementFournisseurMapper;
 import ma.btpmanagement.repositories.FactureFournisseurRepository;
@@ -33,6 +34,9 @@ public class PaiementFournisseurServiceImpl implements PaiementFournisseurServic
         validateMontantDisponible(facture, dto.getMontant(), null);
 
         var paiement = paiementFournisseurMapper.toEntity(dto);
+        if (paiement.getActive() == null) {
+            paiement.setActive(true);
+        }
         paiement.setFactureFournisseur(facture);
         var savedPaiement = paiementFournisseurRepository.save(paiement);
         updateFactureStatus(facture);
@@ -108,7 +112,7 @@ public class PaiementFournisseurServiceImpl implements PaiementFournisseurServic
 
     private void validateMontant(BigDecimal montant) {
         if (montant == null || montant.signum() <= 0) {
-            throw new IllegalArgumentException("Le montant du paiement doit être supérieur à zéro");
+            throw new BusinessException("Le montant du paiement doit être supérieur à zéro");
         }
     }
 
@@ -118,13 +122,13 @@ public class PaiementFournisseurServiceImpl implements PaiementFournisseurServic
             UUID paiementExcluId
     ) {
         if (facture.getMontantTTC() == null) {
-            throw new IllegalArgumentException("Le montant TTC de la facture est obligatoire");
+            throw new BusinessException("Le montant TTC de la facture est obligatoire");
         }
 
         var montantPaye = calculateMontantPaye(facture, paiementExcluId);
         var resteAPayer = facture.getMontantTTC().subtract(montantPaye);
         if (montant.compareTo(resteAPayer) > 0) {
-            throw new IllegalArgumentException(
+            throw new BusinessException(
                     "Le montant du paiement dépasse le reste à payer de la facture");
         }
     }

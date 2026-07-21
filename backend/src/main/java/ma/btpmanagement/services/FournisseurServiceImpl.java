@@ -28,6 +28,9 @@ public class FournisseurServiceImpl implements FournisseurService {
                         "Entreprise introuvable avec l'identifiant : " + dto.getEntrepriseId()));
 
         var fournisseur = fournisseurMapper.toEntity(dto);
+        if (fournisseur.getActive() == null) {
+            fournisseur.setActive(true);
+        }
         fournisseur.setEntreprise(entreprise);
         var savedFournisseur = fournisseurRepository.save(fournisseur);
 

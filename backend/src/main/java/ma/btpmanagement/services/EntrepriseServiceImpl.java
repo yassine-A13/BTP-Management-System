@@ -21,6 +21,9 @@ public class EntrepriseServiceImpl implements EntrepriseService {
     @Override
     public EntrepriseResponseDTO create(EntrepriseRequestDTO dto) {
         var entreprise = entrepriseMapper.toEntity(dto);
+        if (entreprise.getActive() == null) {
+            entreprise.setActive(true);
+        }
         var savedEntreprise = entrepriseRepository.save(entreprise);
 
         return entrepriseMapper.toResponseDTO(savedEntreprise);

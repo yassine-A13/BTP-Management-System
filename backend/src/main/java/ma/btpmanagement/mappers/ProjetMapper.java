@@ -14,6 +14,7 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 public interface ProjetMapper {
 
     @Mapping(target = "entreprise", ignore = true)
+    @Mapping(target = "active", ignore = true)
     Projet toEntity(ProjetRequestDTO dto);
 
     @Mapping(target = "entrepriseId", source = "entreprise.id")

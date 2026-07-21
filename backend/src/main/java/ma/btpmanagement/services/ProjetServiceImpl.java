@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import ma.btpmanagement.dtos.projet.ProjetRequestDTO;
 import ma.btpmanagement.dtos.projet.ProjetResponseDTO;
 import ma.btpmanagement.entites.Projet;
+import ma.btpmanagement.enums.StatutProjet;
 import ma.btpmanagement.exceptions.ResourceNotFoundException;
 import ma.btpmanagement.mappers.ProjetMapper;
 import ma.btpmanagement.repositories.EntrepriseRepository;
@@ -28,6 +29,12 @@ public class ProjetServiceImpl implements ProjetService {
                         "Entreprise introuvable avec l'identifiant : " + dto.getEntrepriseId()));
 
         var projet = projetMapper.toEntity(dto);
+        if (projet.getActive() == null) {
+            projet.setActive(true);
+        }
+        if (projet.getStatut() == null) {
+            projet.setStatut(StatutProjet.PLANIFIE);
+        }
         projet.setEntreprise(entreprise);
         var savedProjet = projetRepository.save(projet);
 

@@ -14,6 +14,7 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 public interface FournisseurMapper {
 
     @Mapping(target = "entreprise", ignore = true)
+    @Mapping(target = "active", ignore = true)
     Fournisseur toEntity(FournisseurRequestDTO dto);
 
     @Mapping(target = "entrepriseId", source = "entreprise.id")
